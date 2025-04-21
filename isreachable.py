@@ -2,7 +2,7 @@
 def parse_grammar(grammar_lines):
     productions = {}
     for line in grammar_lines:
-        left, right = line.split('→')
+        left, right = line.split('->')
         right_parts = right.replace(' ', '').split('|')
         productions[left.strip()] = right_parts
     return productions

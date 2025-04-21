@@ -1,5 +1,5 @@
 from collections import deque
-from isreachable import parse_grammar, find_reachable_nonterminals, filter_reachable_grammar
+# from isreachable import parse_grammar, find_reachable_nonterminals, filter_reachable_grammar
 
 def derivation_to_nonterminal(productions, start_symbol, target_nonterminal, max_steps=10):
     queue = deque()
@@ -25,24 +25,24 @@ def derivation_to_nonterminal(productions, start_symbol, target_nonterminal, max
     return None
 
 #небольшой примерчик
-grammar_lines = [
-    "S→AB|CD",
-    "A→EF",
-    "G→AD",
-    "C→c"
-]
-productions = parse_grammar(grammar_lines)
-start_symbol = 'S'
-
-reachable = find_reachable_nonterminals(productions, start_symbol)
-print("Достижимые нетерминалы:", reachable)
-
-for nt in sorted(reachable):
-    derivation = derivation_to_nonterminal(productions, start_symbol, nt)
-    print(f"Пример вывода для {nt}: {derivation if derivation else 'Не найдено'}")
-
-filtered = filter_reachable_grammar(productions, reachable)
-print("\nГрамматика без недостижимых нетерминалов:")
-for nt in filtered:
-    prod_str = ' | '.join(filtered[nt])
-    print(f"{nt} → {prod_str}")
+# grammar_lines = [
+#     "S->AB|CD",
+#     "A->EF",
+#     "G->AD",
+#     "C->c"
+# ]
+# productions = parse_grammar(grammar_lines)
+# start_symbol = 'S'
+#
+# reachable = find_reachable_nonterminals(productions, start_symbol)
+# print("Достижимые нетерминалы:", reachable)
+#
+# for nt in sorted(reachable):
+#     derivation = derivation_to_nonterminal(productions, start_symbol, nt)
+#     print(f"Пример вывода для {nt}: {derivation if derivation else 'Не найдено'}")
+#
+# filtered = filter_reachable_grammar(productions, reachable)
+# print("\nГрамматика без недостижимых нетерминалов:")
+# for nt in filtered:
+#     prod_str = ' | '.join(filtered[nt])
+#     print(f"{nt} -> {prod_str}")
