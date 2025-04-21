@@ -10,13 +10,42 @@ from print_words import derivation_to_nonterminal
 class GrammarAnalyzer(QWidget):
     def __init__(self):
         super().__init__()
+        self.apply_dark_theme()
+
         self.setWindowTitle("Анализ достижимости в КС‑грамматике")
         self.setGeometry(100, 100, 700, 650)
         self.setup_ui()
 
+    def apply_dark_theme(self):
+        dark_style = """
+        QWidget {
+            background-color: #2b2b2b;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        QLineEdit, QTextEdit {
+            background-color: #3c3f41;
+            color: #ffffff;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+        QPushButton {
+            background-color: #555;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        QPushButton:hover {
+            background-color: #666;
+        }
+        QLabel {
+            color: #cccccc;
+        }
+        """
+        self.setStyleSheet(dark_style)
+
     def setup_ui(self):
         main_layout = QVBoxLayout()
-
 
         main_layout.addWidget(QLabel("КС-грамматика"))
         self.grammar_input = QTextEdit()
@@ -24,7 +53,6 @@ class GrammarAnalyzer(QWidget):
             "S→AB|CD\nA→EF\nG→AD\nC→c"
         )
         main_layout.addWidget(self.grammar_input)
-
 
         start_layout = QHBoxLayout()
         start_layout.addWidget(QLabel("Стартовый символ:"))
@@ -98,15 +126,16 @@ class GrammarAnalyzer(QWidget):
         filtered = filter_reachable_grammar(productions, reachable)
 
         out_lines = []
-        out_lines.append(f"Достижимые нетерминалы из '{start_symbol}': {', '.join(sorted(reachable))}\n")
+        out_lines.append(
+            f"Достижимые нетерминалы из '{start_symbol}': {', '.join(sorted(reachable))}\n"
+        )
 
         for nt in sorted(reachable):
             deriv = derivation_to_nonterminal(productions, start_symbol, nt)
             out_lines.append(f"Вывод для {nt}: {deriv if deriv else 'Не найдено'}")
 
         out_lines.append("\nГрамматика без недостижимых нетерминалов:")
-        keys = list(filtered.keys())
-        keys.sort()
+        keys = sorted(filtered.keys())
         if start_symbol in keys:
             keys.remove(start_symbol)
             keys.insert(0, start_symbol)
